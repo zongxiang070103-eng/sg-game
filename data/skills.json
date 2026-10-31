@@ -1,0 +1,480 @@
+[
+  {
+    "id": "qinglong",
+    "name": "青龙偃月",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "斩向单体，造成攻击 190% 物理伤害；目标生命低于 40% 时提升至 280%。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "atk",
+        "ratio": 1.9,
+        "bonus": { "ratio": 0.9, "when": { "targetHpBelow": 0.4 }, "desc": "斩杀" }
+      }
+    ]
+  },
+  {
+    "id": "weizhen",
+    "name": "威震华夏",
+    "cd": 4,
+    "target": "allEnemies",
+    "desc": "对全体敌人造成攻击 90% 物理伤害，并使其攻击降低 20%、受到伤害提升 15%，持续 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 0.9 },
+      { "type": "debuff", "stat": "atk", "pct": 0.2, "turns": 2 },
+      { "type": "vulnerable", "pct": 0.15, "turns": 2 }
+    ]
+  },
+  {
+    "id": "paoxiao",
+    "name": "长坂咆哮",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "对单体造成攻击 155% 物理伤害，并使其眩晕 1 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 1.55 },
+      { "type": "stun", "turns": 1 }
+    ]
+  },
+  {
+    "id": "duanqiao",
+    "name": "据水断桥",
+    "cd": 2,
+    "target": "allEnemies",
+    "desc": "对全体敌人造成攻击 70% 物理伤害，并嘲讽他们 1 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 0.7 },
+      { "type": "taunt", "turns": 1 }
+    ]
+  },
+  {
+    "id": "danqi",
+    "name": "单骑救主",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "对单体造成攻击 180% 物理伤害（我方仅剩他一人时 250%），并解除自身所有负面状态。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "atk",
+        "ratio": 1.8,
+        "bonus": { "ratio": 0.7, "when": { "allyFieldAtMost": 1 }, "desc": "孤军" }
+      },
+      { "type": "cleanse", "target": "self" }
+    ]
+  },
+  {
+    "id": "longdan",
+    "name": "龙胆",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "对单体造成攻击 120% 物理伤害，并获得吸血：造成伤害的 50% 回复自身，持续 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 1.2 },
+      { "type": "lifesteal", "pct": 0.5, "turns": 2, "target": "self" }
+    ]
+  },
+  {
+    "id": "tieji",
+    "name": "西凉铁骑",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "对单体造成攻击 170% 物理伤害，并降低其速度 30%，持续 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 1.7 },
+      { "type": "debuff", "stat": "spd", "pct": 0.3, "turns": 2 }
+    ]
+  },
+  {
+    "id": "xiliang",
+    "name": "疾驰冲阵",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "造成攻击 120% 物理伤害；若自身速度高于目标，提升至 180%。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "atk",
+        "ratio": 1.2,
+        "bonus": { "ratio": 0.6, "when": { "fasterThanTarget": true }, "desc": "疾驰" }
+      }
+    ]
+  },
+  {
+    "id": "baibu",
+    "name": "百步穿杨",
+    "cd": 3,
+    "target": "lowestEnemy",
+    "desc": "锁定生命最低的敌人，造成攻击 220% 物理伤害，无视其 50% 防御。",
+    "effects": [{ "type": "damage", "scale": "atk", "ratio": 2.2, "pierce": 0.5 }]
+  },
+  {
+    "id": "laodang",
+    "name": "老当益壮",
+    "cd": 3,
+    "target": "self",
+    "desc": "自身攻击提升 30%，并获得回春（每回合回复 6% 最大生命），持续 2 回合。",
+    "effects": [
+      { "type": "buff", "stat": "atk", "pct": 0.3, "turns": 2 },
+      { "type": "regen", "pctMaxHp": 0.06, "turns": 2 }
+    ]
+  },
+  {
+    "id": "ziwu",
+    "name": "子午奇谋",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "造成攻击 180% 物理伤害；自身生命低于 50% 时提升至 260%。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "atk",
+        "ratio": 1.8,
+        "bonus": { "ratio": 0.8, "when": { "selfHpBelow": 0.5 }, "desc": "险中求胜" }
+      }
+    ]
+  },
+  {
+    "id": "fangu",
+    "name": "反骨",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "造成攻击 130% 物理伤害，并使目标易伤：受到伤害提升 20%，持续 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 1.3 },
+      { "type": "vulnerable", "pct": 0.2, "turns": 2 }
+    ]
+  },
+  {
+    "id": "tuxi",
+    "name": "轻骑突袭",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "造成攻击 145% 物理伤害；若自身速度更快，提升至 195%。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "atk",
+        "ratio": 1.45,
+        "bonus": { "ratio": 0.5, "when": { "fasterThanTarget": true }, "desc": "先手" }
+      }
+    ]
+  },
+  {
+    "id": "xiaoyao",
+    "name": "威震逍遥津",
+    "cd": 4,
+    "target": "allEnemies",
+    "desc": "对全体敌人造成攻击 85% 物理伤害，降低其攻击 20%，并沉默 1 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 0.85 },
+      { "type": "debuff", "stat": "atk", "pct": 0.2, "turns": 2 },
+      { "type": "silence", "turns": 1 }
+    ]
+  },
+  {
+    "id": "xiandeng",
+    "name": "先登陷阵",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "造成攻击 135% 物理伤害，自身速度提升 20%，持续 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 1.35 },
+      { "type": "buff", "stat": "spd", "pct": 0.2, "turns": 2, "target": "self" }
+    ]
+  },
+  {
+    "id": "xiaoguo",
+    "name": "骁果连击",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "对单体连续攻击 2 次，每次造成攻击 95% 物理伤害。",
+    "effects": [{ "type": "damage", "scale": "atk", "ratio": 0.95, "hits": 2 }]
+  },
+  {
+    "id": "changqu",
+    "name": "长驱直入",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "造成攻击 165% 物理伤害，并使目标防御降低 30%，持续 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 1.65 },
+      { "type": "debuff", "stat": "def", "pct": 0.3, "turns": 2 }
+    ]
+  },
+  {
+    "id": "zhijun",
+    "name": "治军严整",
+    "cd": 3,
+    "target": "allAllies",
+    "desc": "全体友军防御提升 20%（2 回合），并解除其负面状态。",
+    "effects": [
+      { "type": "buff", "stat": "def", "pct": 0.2, "turns": 2 },
+      { "type": "cleanse" }
+    ]
+  },
+  {
+    "id": "yizhong",
+    "name": "毅重持节",
+    "cd": 3,
+    "target": "self",
+    "desc": "获得相当于自身最大生命 18% 的护盾，持续 3 回合。",
+    "effects": [{ "type": "shield", "scale": "maxHp", "ratio": 0.18, "turns": 3 }]
+  },
+  {
+    "id": "zhenjun",
+    "name": "镇军压阵",
+    "cd": 2,
+    "target": "allEnemies",
+    "desc": "对全体敌人造成攻击 60% 物理伤害，并使其造成的伤害降低 20%，持续 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 0.6 },
+      { "type": "weaken", "pct": 0.2, "turns": 2 }
+    ]
+  },
+  {
+    "id": "tiebi",
+    "name": "铁壁守城",
+    "cd": 4,
+    "target": "allAllies",
+    "desc": "全体友军获得最大生命 15% 的护盾，持续 3 回合。",
+    "effects": [{ "type": "shield", "scale": "maxHp", "ratio": 0.15, "turns": 3 }]
+  },
+  {
+    "id": "shoucheng",
+    "name": "据城死守",
+    "cd": 2,
+    "target": "self",
+    "desc": "自身防御提升 40%，回复 8% 最大生命，并获得荆棘（反弹所受伤害的 25%），持续 2 回合。",
+    "effects": [
+      { "type": "buff", "stat": "def", "pct": 0.4, "turns": 2 },
+      { "type": "heal", "scale": "maxHp", "ratio": 0.08 },
+      { "type": "thorns", "pct": 0.25, "turns": 2 }
+    ]
+  },
+  {
+    "id": "bashi",
+    "name": "拔矢啖睛",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "造成攻击 145% 物理伤害；自身生命低于 50% 时提升至 190%。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "atk",
+        "ratio": 1.45,
+        "bonus": { "ratio": 0.45, "when": { "selfHpBelow": 0.5 }, "desc": "刚烈" }
+      }
+    ]
+  },
+  {
+    "id": "ganglie",
+    "name": "刚烈反击",
+    "cd": 3,
+    "target": "self",
+    "desc": "进入反击姿态：受到普攻时以 70% 攻击还击，持续 2 回合。",
+    "effects": [{ "type": "counter", "pct": 0.7, "turns": 2 }]
+  },
+  {
+    "id": "huogong",
+    "name": "火攻",
+    "cd": 3,
+    "target": "allEnemies",
+    "desc": "对全体敌人造成智力 90% 魔法伤害，并附灼烧（每回合智力 20%，2 回合）。",
+    "effects": [
+      { "type": "damage", "scale": "int", "ratio": 0.9 },
+      { "type": "burn", "ratio": 0.2, "turns": 2 }
+    ]
+  },
+  {
+    "id": "chibi",
+    "name": "赤壁纵火",
+    "cd": 4,
+    "target": "allEnemies",
+    "desc": "对全体敌人造成智力 125% 魔法伤害；目标处于灼烧时提升至 175%。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "int",
+        "ratio": 1.25,
+        "bonus": { "ratio": 0.5, "when": { "targetHas": "burn" }, "desc": "火上浇油" }
+      }
+    ]
+  },
+  {
+    "id": "lianying",
+    "name": "火烧连营",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "造成智力 180% 魔法伤害（目标灼烧时 250%），并使其受到的治疗降低 50%，持续 2 回合。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "int",
+        "ratio": 1.8,
+        "bonus": { "ratio": 0.7, "when": { "targetHas": "burn" }, "desc": "引爆" }
+      },
+      { "type": "healBlock", "pct": 0.5, "turns": 2 }
+    ]
+  },
+  {
+    "id": "huoshao",
+    "name": "八百里连营",
+    "cd": 4,
+    "target": "allEnemies",
+    "desc": "对全体敌人造成智力 95% 魔法伤害，并附灼烧（每回合智力 18%，2 回合）。",
+    "effects": [
+      { "type": "damage", "scale": "int", "ratio": 0.95 },
+      { "type": "burn", "ratio": 0.18, "turns": 2 }
+    ]
+  },
+  {
+    "id": "baiyi",
+    "name": "白衣渡江",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "先驱散目标身上的增益与护盾，再造成智力 140% 魔法伤害与攻击 70% 物理伤害。",
+    "effects": [
+      { "type": "dispel" },
+      { "type": "damage", "scale": "int", "ratio": 1.4 },
+      { "type": "damage", "scale": "atk", "ratio": 0.7 }
+    ]
+  },
+  {
+    "id": "gongxin",
+    "name": "攻心为上",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "造成智力 120% 魔法伤害，并沉默目标 1 回合。",
+    "effects": [
+      { "type": "damage", "scale": "int", "ratio": 1.2 },
+      { "type": "silence", "turns": 1 }
+    ]
+  },
+  {
+    "id": "jinfan",
+    "name": "锦帆夜袭",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "造成攻击 190% 物理伤害；目标生命低于 50% 时提升至 260%。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "atk",
+        "ratio": 1.9,
+        "bonus": { "ratio": 0.7, "when": { "targetHpBelow": 0.5 }, "desc": "乘胜追击" }
+      }
+    ]
+  },
+  {
+    "id": "baiqi",
+    "name": "百骑劫营",
+    "cd": 4,
+    "target": "strongestEnemy",
+    "desc": "直取攻击最高的敌人，造成攻击 250% 物理伤害，并缴械 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 2.5 },
+      { "type": "disarm", "turns": 2 }
+    ]
+  },
+  {
+    "id": "shenshe",
+    "name": "神射",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "造成攻击 140% 物理伤害（速度更快时 190%），并使目标中毒（每回合损失 4% 最大生命，2 回合）。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "atk",
+        "ratio": 1.4,
+        "bonus": { "ratio": 0.5, "when": { "fasterThanTarget": true }, "desc": "先发" }
+      },
+      { "type": "poison", "pctMaxHp": 0.04, "turns": 2 }
+    ]
+  },
+  {
+    "id": "yilie",
+    "name": "义烈壮士",
+    "cd": 3,
+    "target": "enemy",
+    "desc": "造成攻击 160% 物理伤害，并回复自身 10% 最大生命。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 1.6 },
+      { "type": "heal", "scale": "maxHp", "ratio": 0.1, "target": "self" }
+    ]
+  },
+  {
+    "id": "zhenshou",
+    "name": "镇守江夏",
+    "cd": 2,
+    "target": "self",
+    "desc": "获得最大生命 20% 的护盾（2 回合），并嘲讽全体敌人 1 回合。",
+    "effects": [
+      { "type": "shield", "scale": "maxHp", "ratio": 0.2, "turns": 2 },
+      { "type": "taunt", "turns": 1, "target": "allEnemies" }
+    ]
+  },
+  {
+    "id": "jiangxia",
+    "name": "江夏布防",
+    "cd": 3,
+    "target": "allEnemies",
+    "desc": "对全体敌人造成攻击 70% 物理伤害，并降低其速度 20%，持续 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 0.7 },
+      { "type": "debuff", "stat": "spd", "pct": 0.2, "turns": 2 }
+    ]
+  },
+  {
+    "id": "jizhi",
+    "name": "继承遗志",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "造成智力 130% 魔法伤害（自身生命低于 50% 时 190%），并获得回春（每回合回复 5% 最大生命，2 回合）。",
+    "effects": [
+      {
+        "type": "damage",
+        "scale": "int",
+        "ratio": 1.3,
+        "bonus": { "ratio": 0.6, "when": { "selfHpBelow": 0.5 }, "desc": "继丞相之志" }
+      },
+      { "type": "regen", "pctMaxHp": 0.05, "turns": 2, "target": "self" }
+    ]
+  },
+  {
+    "id": "jiufa",
+    "name": "九伐中原",
+    "cd": 3,
+    "target": "allEnemies",
+    "desc": "先对全体造成智力 80% 魔法伤害，再造成攻击 50% 物理伤害。",
+    "effects": [
+      { "type": "damage", "scale": "int", "ratio": 0.8 },
+      { "type": "damage", "scale": "atk", "ratio": 0.5 }
+    ]
+  },
+  {
+    "id": "qiaobian",
+    "name": "巧变",
+    "cd": 2,
+    "target": "enemy",
+    "desc": "造成攻击 140% 物理伤害，自身速度提升 25%，持续 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 1.4 },
+      { "type": "buff", "stat": "spd", "pct": 0.25, "turns": 2, "target": "self" }
+    ]
+  },
+  {
+    "id": "liaodi",
+    "name": "料敌先机",
+    "cd": 3,
+    "target": "strongestEnemy",
+    "desc": "直取攻击最高的敌人，造成攻击 200% 物理伤害，破甲 25% 并缴械 2 回合。",
+    "effects": [
+      { "type": "damage", "scale": "atk", "ratio": 2.0 },
+      { "type": "debuff", "stat": "def", "pct": 0.25, "turns": 2 },
+      { "type": "disarm", "turns": 2 }
+    ]
+  }
+]

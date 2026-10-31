@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+
+# 本项目为原创游戏，不包含任何第三方游戏包体
+*.apk
+*.apks
+*.obb
