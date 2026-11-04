@@ -9,7 +9,13 @@
     "def": 16,
     "int": 10,
     "spd": 11,
-    "skills": ["qinglong", "weizhen"]
+    "skills": [
+      "qinglong",
+      "weizhen"
+    ],
+    "talents": [
+      "wusheng"
+    ]
   },
   {
     "id": "zhangfei",
@@ -21,7 +27,13 @@
     "def": 18,
     "int": 6,
     "spd": 9,
-    "skills": ["paoxiao", "duanqiao"]
+    "skills": [
+      "paoxiao",
+      "duanqiao"
+    ],
+    "talents": [
+      "dangyang_he"
+    ]
   },
   {
     "id": "zhaoyun",
@@ -33,7 +45,13 @@
     "def": 15,
     "int": 8,
     "spd": 16,
-    "skills": ["danqi", "longdan"]
+    "skills": [
+      "danqi",
+      "longdan"
+    ],
+    "talents": [
+      "qijin_qichu"
+    ]
   },
   {
     "id": "machao",
@@ -45,7 +63,13 @@
     "def": 13,
     "int": 5,
     "spd": 18,
-    "skills": ["tieji", "xiliang"]
+    "skills": [
+      "tieji",
+      "xiliang"
+    ],
+    "talents": [
+      "tieqi_zhuiji"
+    ]
   },
   {
     "id": "huangzhong",
@@ -57,7 +81,13 @@
     "def": 12,
     "int": 9,
     "spd": 14,
-    "skills": ["baibu", "laodang"]
+    "skills": [
+      "baibu",
+      "laodang"
+    ],
+    "talents": [
+      "laodang_yizhuang"
+    ]
   },
   {
     "id": "weiyan",
@@ -69,7 +99,13 @@
     "def": 14,
     "int": 7,
     "spd": 13,
-    "skills": ["ziwu", "fangu"]
+    "skills": [
+      "ziwu",
+      "fangu"
+    ],
+    "talents": [
+      "fangu_juexing"
+    ]
   },
   {
     "id": "zhangliao",
@@ -81,7 +117,13 @@
     "def": 15,
     "int": 10,
     "spd": 15,
-    "skills": ["tuxi", "xiaoyao"]
+    "skills": [
+      "tuxi",
+      "xiaoyao"
+    ],
+    "talents": [
+      "xiaoyao_zhen"
+    ]
   },
   {
     "id": "yuejin",
@@ -93,7 +135,13 @@
     "def": 13,
     "int": 6,
     "spd": 17,
-    "skills": ["xiandeng", "xiaoguo"]
+    "skills": [
+      "xiandeng",
+      "xiaoguo"
+    ],
+    "talents": [
+      "xiandeng_yong"
+    ]
   },
   {
     "id": "xuhuang",
@@ -105,7 +153,13 @@
     "def": 20,
     "int": 9,
     "spd": 12,
-    "skills": ["changqu", "zhijun"]
+    "skills": [
+      "changqu",
+      "zhijun"
+    ],
+    "talents": [
+      "zhijun_yanshu"
+    ]
   },
   {
     "id": "yujin",
@@ -117,7 +171,13 @@
     "def": 22,
     "int": 8,
     "spd": 10,
-    "skills": ["yizhong", "zhenjun"]
+    "skills": [
+      "yizhong",
+      "zhenjun"
+    ],
+    "talents": [
+      "yizhong_buqu"
+    ]
   },
   {
     "id": "caoren",
@@ -129,7 +189,13 @@
     "def": 25,
     "int": 10,
     "spd": 8,
-    "skills": ["tiebi", "shoucheng"]
+    "skills": [
+      "tiebi",
+      "shoucheng"
+    ],
+    "talents": [
+      "tiebi_zhizhen"
+    ]
   },
   {
     "id": "xiahoudun",
@@ -141,7 +207,13 @@
     "def": 17,
     "int": 8,
     "spd": 12,
-    "skills": ["bashi", "ganglie"]
+    "skills": [
+      "bashi",
+      "ganglie"
+    ],
+    "talents": [
+      "ganglie_zhen"
+    ]
   },
   {
     "id": "zhouyu",
@@ -153,7 +225,13 @@
     "def": 10,
     "int": 34,
     "spd": 16,
-    "skills": ["huogong", "chibi"]
+    "skills": [
+      "huogong",
+      "chibi"
+    ],
+    "talents": [
+      "huoshi_man"
+    ]
   },
   {
     "id": "luxun",
@@ -165,7 +243,13 @@
     "def": 11,
     "int": 32,
     "spd": 15,
-    "skills": ["lianying", "huoshao"]
+    "skills": [
+      "lianying",
+      "huoshao"
+    ],
+    "talents": [
+      "lianying_huo"
+    ]
   },
   {
     "id": "lvmeng",
@@ -177,7 +261,13 @@
     "def": 14,
     "int": 26,
     "spd": 13,
-    "skills": ["baiyi", "gongxin"]
+    "skills": [
+      "baiyi",
+      "gongxin"
+    ],
+    "talents": [
+      "baiyi_gong"
+    ]
   },
   {
     "id": "ganning",
@@ -189,7 +279,13 @@
     "def": 12,
     "int": 7,
     "spd": 19,
-    "skills": ["jinfan", "baiqi"]
+    "skills": [
+      "jinfan",
+      "baiqi"
+    ],
+    "talents": [
+      "jinfan_shi"
+    ]
   },
   {
     "id": "taishici",
@@ -201,7 +297,13 @@
     "def": 14,
     "int": 8,
     "spd": 16,
-    "skills": ["shenshe", "yilie"]
+    "skills": [
+      "shenshe",
+      "yilie"
+    ],
+    "talents": [
+      "shenshe_wei"
+    ]
   },
   {
     "id": "wenpin",
@@ -213,7 +315,13 @@
     "def": 20,
     "int": 9,
     "spd": 11,
-    "skills": ["zhenshou", "jiangxia"]
+    "skills": [
+      "zhenshou",
+      "jiangxia"
+    ],
+    "talents": [
+      "zhenshou_wei"
+    ]
   },
   {
     "id": "jiangwei",
@@ -225,7 +333,13 @@
     "def": 14,
     "int": 24,
     "spd": 14,
-    "skills": ["jizhi", "jiufa"]
+    "skills": [
+      "jizhi",
+      "jiufa"
+    ],
+    "talents": [
+      "jizhi_cheng"
+    ]
   },
   {
     "id": "zhanghe",
@@ -237,6 +351,732 @@
     "def": 15,
     "int": 12,
     "spd": 17,
-    "skills": ["qiaobian", "liaodi"]
+    "skills": [
+      "qiaobian",
+      "liaodi"
+    ],
+    "talents": [
+      "qiaobian_ling"
+    ]
+  },
+  {
+    "id": "caocao",
+    "name": "曹操",
+    "title": "魏武帝",
+    "faction": "wei",
+    "hp": 120,
+    "atk": 29,
+    "def": 16,
+    "int": 22,
+    "spd": 12,
+    "skills": [
+      "jianxiong",
+      "xietianzi"
+    ],
+    "talents": [
+      "ningwo_furen"
+    ]
+  },
+  {
+    "id": "caopi",
+    "name": "曹丕",
+    "title": "魏文帝",
+    "faction": "wei",
+    "hp": 104,
+    "atk": 23,
+    "def": 13,
+    "int": 19,
+    "spd": 12,
+    "skills": [
+      "shouchan",
+      "jiupin"
+    ],
+    "talents": [
+      "weiwenzhi"
+    ]
+  },
+  {
+    "id": "simayi",
+    "name": "司马懿",
+    "title": "晋宣帝",
+    "faction": "wei",
+    "hp": 100,
+    "atk": 22,
+    "def": 14,
+    "int": 34,
+    "spd": 11,
+    "skills": [
+      "yingshilanggu",
+      "gaopingling"
+    ],
+    "talents": [
+      "yinshen"
+    ]
+  },
+  {
+    "id": "guojia",
+    "name": "郭嘉",
+    "title": "贞侯",
+    "faction": "wei",
+    "hp": 86,
+    "atk": 19,
+    "def": 10,
+    "int": 32,
+    "spd": 14,
+    "skills": [
+      "yiji",
+      "shisheng"
+    ],
+    "talents": [
+      "tiandu"
+    ]
+  },
+  {
+    "id": "xunyu",
+    "name": "荀彧",
+    "title": "敬侯",
+    "faction": "wei",
+    "hp": 90,
+    "atk": 18,
+    "def": 11,
+    "int": 30,
+    "spd": 12,
+    "skills": [
+      "wangzuo",
+      "yingfeng"
+    ],
+    "talents": [
+      "quhu_tunlang"
+    ]
+  },
+  {
+    "id": "jiaxu",
+    "name": "贾诩",
+    "title": "肃侯",
+    "faction": "wei",
+    "hp": 92,
+    "atk": 21,
+    "def": 12,
+    "int": 33,
+    "spd": 13,
+    "skills": [
+      "dushi",
+      "suanwuyice"
+    ],
+    "talents": [
+      "luanwu"
+    ]
+  },
+  {
+    "id": "xuchu",
+    "name": "许褚",
+    "title": "牟乡侯",
+    "faction": "wei",
+    "hp": 126,
+    "atk": 32,
+    "def": 17,
+    "int": 4,
+    "spd": 10,
+    "skills": [
+      "luoyi",
+      "huchi"
+    ],
+    "talents": [
+      "luoyi_xuezhan"
+    ]
+  },
+  {
+    "id": "dianwei",
+    "name": "典韦",
+    "title": "忠侯",
+    "faction": "wei",
+    "hp": 122,
+    "atk": 31,
+    "def": 16,
+    "int": 4,
+    "spd": 11,
+    "skills": [
+      "guzhi",
+      "sizhan"
+    ],
+    "talents": [
+      "elai"
+    ]
+  },
+  {
+    "id": "zhenji",
+    "name": "甄宓",
+    "title": "文昭甄皇后",
+    "faction": "wei",
+    "hp": 88,
+    "atk": 18,
+    "def": 10,
+    "int": 24,
+    "spd": 12,
+    "skills": [
+      "luoshen",
+      "youyuan"
+    ],
+    "talents": [
+      "lingbo"
+    ]
+  },
+  {
+    "id": "liubei",
+    "name": "刘备",
+    "title": "昭烈帝",
+    "faction": "shu",
+    "hp": 118,
+    "atk": 27,
+    "def": 16,
+    "int": 18,
+    "spd": 11,
+    "skills": [
+      "rende",
+      "sangu"
+    ],
+    "talents": [
+      "zhaolie"
+    ]
+  },
+  {
+    "id": "zhugeliang",
+    "name": "诸葛亮",
+    "title": "忠武侯",
+    "faction": "shu",
+    "hp": 94,
+    "atk": 20,
+    "def": 12,
+    "int": 35,
+    "spd": 13,
+    "skills": [
+      "kongcheng",
+      "bazhentu"
+    ],
+    "talents": [
+      "jinnang"
+    ]
+  },
+  {
+    "id": "pangtong",
+    "name": "庞统",
+    "title": "靖侯",
+    "faction": "shu",
+    "hp": 88,
+    "atk": 20,
+    "def": 11,
+    "int": 33,
+    "spd": 12,
+    "skills": [
+      "lianhuan",
+      "fengchu"
+    ],
+    "talents": [
+      "luofeng"
+    ]
+  },
+  {
+    "id": "fazheng",
+    "name": "法正",
+    "title": "翼侯",
+    "faction": "shu",
+    "hp": 92,
+    "atk": 21,
+    "def": 12,
+    "int": 31,
+    "spd": 13,
+    "skills": [
+      "dingjun",
+      "yazi"
+    ],
+    "talents": [
+      "yazi_bibao"
+    ]
+  },
+  {
+    "id": "huangyueying",
+    "name": "黄月英",
+    "title": "黄夫人",
+    "faction": "shu",
+    "hp": 90,
+    "atk": 19,
+    "def": 11,
+    "int": 30,
+    "spd": 12,
+    "skills": [
+      "muniu",
+      "jiguanshu"
+    ],
+    "talents": [
+      "qiaosi"
+    ]
+  },
+  {
+    "id": "xushu",
+    "name": "徐庶",
+    "title": "徐庶",
+    "faction": "shu",
+    "hp": 90,
+    "atk": 21,
+    "def": 11,
+    "int": 29,
+    "spd": 14,
+    "skills": [
+      "zouma",
+      "yiyanbufa"
+    ],
+    "talents": [
+      "shenzai_caoying"
+    ]
+  },
+  {
+    "id": "liushan",
+    "name": "刘禅",
+    "title": "蜀后主",
+    "faction": "shu",
+    "hp": 92,
+    "atk": 16,
+    "def": 10,
+    "int": 8,
+    "spd": 9,
+    "skills": [
+      "lebusi",
+      "renxian"
+    ],
+    "talents": [
+      "anle"
+    ]
+  },
+  {
+    "id": "sunjian",
+    "name": "孙坚",
+    "title": "武烈皇帝",
+    "faction": "wu",
+    "hp": 120,
+    "atk": 31,
+    "def": 17,
+    "int": 9,
+    "spd": 14,
+    "skills": [
+      "mengtiger",
+      "nixi"
+    ],
+    "talents": [
+      "polu"
+    ]
+  },
+  {
+    "id": "sunce",
+    "name": "孙策",
+    "title": "长沙桓王",
+    "faction": "wu",
+    "hp": 112,
+    "atk": 32,
+    "def": 15,
+    "int": 10,
+    "spd": 18,
+    "skills": [
+      "xiaobawang",
+      "jiangdong"
+    ],
+    "talents": [
+      "jiangdong_xiaobawang"
+    ]
+  },
+  {
+    "id": "sunquan",
+    "name": "孙权",
+    "title": "吴大帝",
+    "faction": "wu",
+    "hp": 110,
+    "atk": 24,
+    "def": 15,
+    "int": 20,
+    "spd": 11,
+    "skills": [
+      "shengzidangru",
+      "zhiheng"
+    ],
+    "talents": [
+      "zuoduan_dongnan"
+    ]
+  },
+  {
+    "id": "lusu",
+    "name": "鲁肃",
+    "title": "横江将军",
+    "faction": "wu",
+    "hp": 96,
+    "atk": 22,
+    "def": 14,
+    "int": 28,
+    "spd": 11,
+    "skills": [
+      "tashangce",
+      "suojingzhou"
+    ],
+    "talents": [
+      "kangkai"
+    ]
+  },
+  {
+    "id": "huanggai",
+    "name": "黄盖",
+    "title": "偏将军",
+    "faction": "wu",
+    "hp": 114,
+    "atk": 26,
+    "def": 17,
+    "int": 12,
+    "spd": 10,
+    "skills": [
+      "kurou",
+      "zhaxiang"
+    ],
+    "talents": [
+      "zhaxiang_ku"
+    ]
+  },
+  {
+    "id": "daqiao",
+    "name": "大乔",
+    "title": "江东二乔",
+    "faction": "wu",
+    "hp": 84,
+    "atk": 16,
+    "def": 9,
+    "int": 20,
+    "spd": 13,
+    "skills": [
+      "guose",
+      "liuli"
+    ],
+    "talents": [
+      "guose_tianxiang"
+    ]
+  },
+  {
+    "id": "xiaoqiao",
+    "name": "小乔",
+    "title": "江东二乔",
+    "faction": "wu",
+    "hp": 84,
+    "atk": 17,
+    "def": 9,
+    "int": 21,
+    "spd": 14,
+    "skills": [
+      "tianxiang",
+      "hongyan"
+    ],
+    "talents": [
+      "tianxiang_hu"
+    ]
+  },
+  {
+    "id": "sunshangxiang",
+    "name": "孙尚香",
+    "title": "孙夫人",
+    "faction": "wu",
+    "hp": 98,
+    "atk": 27,
+    "def": 13,
+    "int": 14,
+    "spd": 17,
+    "skills": [
+      "xiaoji",
+      "gongyaoji"
+    ],
+    "talents": [
+      "jieyin"
+    ]
+  },
+  {
+    "id": "dingfeng",
+    "name": "丁奉",
+    "title": "安丰侯",
+    "faction": "wu",
+    "hp": 108,
+    "atk": 27,
+    "def": 15,
+    "int": 10,
+    "spd": 13,
+    "skills": [
+      "xuezhong",
+      "dongxing"
+    ],
+    "talents": [
+      "duanbing"
+    ]
+  },
+  {
+    "id": "lvbu",
+    "name": "吕布",
+    "title": "温侯",
+    "faction": "qun",
+    "hp": 130,
+    "atk": 34,
+    "def": 18,
+    "int": 6,
+    "spd": 17,
+    "skills": [
+      "tianxiawushuang",
+      "fangtian"
+    ],
+    "talents": [
+      "xiaoyong"
+    ]
+  },
+  {
+    "id": "diaochan",
+    "name": "貂蝉",
+    "title": "四大美人",
+    "faction": "qun",
+    "hp": 86,
+    "atk": 20,
+    "def": 10,
+    "int": 26,
+    "spd": 16,
+    "skills": [
+      "lijian",
+      "biyue"
+    ],
+    "talents": [
+      "meiren_ji"
+    ]
+  },
+  {
+    "id": "dongzhuo",
+    "name": "董卓",
+    "title": "太师",
+    "faction": "qun",
+    "hp": 130,
+    "atk": 29,
+    "def": 20,
+    "int": 12,
+    "spd": 7,
+    "skills": [
+      "baonue",
+      "feili"
+    ],
+    "talents": [
+      "jiuchi_roulin"
+    ]
+  },
+  {
+    "id": "yuanshao",
+    "name": "袁绍",
+    "title": "大将军",
+    "faction": "qun",
+    "hp": 118,
+    "atk": 26,
+    "def": 16,
+    "int": 12,
+    "spd": 10,
+    "skills": [
+      "sishisangong",
+      "guandujuezhan"
+    ],
+    "talents": [
+      "mingmen"
+    ]
+  },
+  {
+    "id": "yuanshu",
+    "name": "袁术",
+    "title": "仲氏皇帝",
+    "faction": "qun",
+    "hp": 108,
+    "atk": 20,
+    "def": 12,
+    "int": 8,
+    "spd": 9,
+    "skills": [
+      "jianhao",
+      "zhongshi"
+    ],
+    "talents": [
+      "zhongzhong_kugu"
+    ]
+  },
+  {
+    "id": "gongsunzan",
+    "name": "公孙瓒",
+    "title": "易侯",
+    "faction": "qun",
+    "hp": 112,
+    "atk": 30,
+    "def": 15,
+    "int": 8,
+    "spd": 16,
+    "skills": [
+      "baima",
+      "jieqiao"
+    ],
+    "talents": [
+      "baima_yicong"
+    ]
+  },
+  {
+    "id": "liubiao",
+    "name": "刘表",
+    "title": "荆州牧",
+    "faction": "qun",
+    "hp": 108,
+    "atk": 20,
+    "def": 14,
+    "int": 16,
+    "spd": 8,
+    "skills": [
+      "zuozhen",
+      "shoutu"
+    ],
+    "talents": [
+      "shoucheng_zhizhu"
+    ]
+  },
+  {
+    "id": "zhangjiao",
+    "name": "张角",
+    "title": "大贤良师",
+    "faction": "qun",
+    "hp": 100,
+    "atk": 22,
+    "def": 14,
+    "int": 28,
+    "spd": 10,
+    "skills": [
+      "taipingdao",
+      "huangtian"
+    ],
+    "talents": [
+      "huangtian_dangli"
+    ]
+  },
+  {
+    "id": "huatuo",
+    "name": "华佗",
+    "title": "神医",
+    "faction": "qun",
+    "hp": 92,
+    "atk": 16,
+    "def": 12,
+    "int": 30,
+    "spd": 12,
+    "skills": [
+      "qingnang",
+      "guagu"
+    ],
+    "talents": [
+      "shenyi"
+    ]
+  },
+  {
+    "id": "caiwenji",
+    "name": "蔡琰",
+    "title": "陈留才女",
+    "faction": "qun",
+    "hp": 84,
+    "atk": 15,
+    "def": 9,
+    "int": 27,
+    "spd": 11,
+    "skills": [
+      "hujia",
+      "guihan"
+    ],
+    "talents": [
+      "beige"
+    ]
+  },
+  {
+    "id": "chengong",
+    "name": "陈宫",
+    "title": "陈宫",
+    "faction": "qun",
+    "hp": 92,
+    "atk": 22,
+    "def": 12,
+    "int": 29,
+    "spd": 12,
+    "skills": [
+      "zhuofang",
+      "baimenlou"
+    ],
+    "talents": [
+      "gangzhi"
+    ]
+  },
+  {
+    "id": "wangyun",
+    "name": "王允",
+    "title": "司徒",
+    "faction": "qun",
+    "hp": 86,
+    "atk": 16,
+    "def": 10,
+    "int": 28,
+    "spd": 10,
+    "skills": [
+      "lianhuanji",
+      "zhudong"
+    ],
+    "talents": [
+      "zhuzhei"
+    ]
+  },
+  {
+    "id": "menghuo",
+    "name": "孟获",
+    "title": "南蛮王",
+    "faction": "qun",
+    "hp": 128,
+    "atk": 30,
+    "def": 18,
+    "int": 8,
+    "spd": 11,
+    "skills": [
+      "manwang",
+      "nannan"
+    ],
+    "talents": [
+      "manhuang_zhiyong"
+    ]
+  },
+  {
+    "id": "hanxiandi",
+    "name": "刘协",
+    "title": "汉献帝",
+    "faction": "qun",
+    "hp": 84,
+    "atk": 14,
+    "def": 9,
+    "int": 14,
+    "spd": 9,
+    "skills": [
+      "yidaizhao",
+      "shanrang"
+    ],
+    "talents": [
+      "tianzi_weiyi"
+    ]
+  },
+  {
+    "id": "zhurong",
+    "name": "祝融夫人",
+    "title": "南蛮女将",
+    "faction": "qun",
+    "hp": 104,
+    "atk": 28,
+    "def": 14,
+    "int": 12,
+    "spd": 16,
+    "skills": [
+      "feidao",
+      "nanzheng"
+    ],
+    "talents": [
+      "feidao_zhi_du"
+    ]
   }
 ]

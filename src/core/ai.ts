@@ -22,16 +22,16 @@ import { SKILL_BY_ID } from './data';
 import { isBuff, isDebuff } from './status';
 import type { BattleState, EffectDef, SkillDef, StatKey, Unit } from './types';
 
-function buffValue(stat: StatKey, pct: number, actor: Unit): number {
+function buffValue(stat: StatKey, pct: number, actor: Unit, state: BattleState): number {
   switch (stat) {
     case 'atk':
-      return effectiveStat(actor, 'atk') * pct * 2;
+      return effectiveStat(actor, 'atk', state) * pct * 2;
     case 'def':
-      return effectiveStat(actor, 'def') * pct * 1.5;
+      return effectiveStat(actor, 'def', state) * pct * 1.5;
     case 'spd':
       return 5;
     case 'int':
-      return effectiveStat(actor, 'int') * pct * 1.5;
+      return effectiveStat(actor, 'int', state) * pct * 1.5;
   }
 }
 
@@ -51,8 +51,8 @@ function effectValue(
       for (let i = 0; i < hits; i++) {
         const raw =
           eff.scale === 'int'
-            ? magicDamage(actor, target, ratio)
-            : physicalDamage(actor, target, ratio, eff.pierce ?? 0);
+            ? magicDamage(actor, target, ratio, state)
+            : physicalDamage(actor, target, ratio, eff.pierce ?? 0, state);
         dmg += adjustDamage(actor, target, raw);
       }
       let value = dmg;
@@ -70,31 +70,33 @@ function effectValue(
       const amount =
         eff.scale === 'maxHp'
           ? actor.maxHp * eff.ratio
-          : effectiveStat(actor, eff.scale) * eff.ratio;
+          : effectiveStat(actor, eff.scale, state) * eff.ratio;
       const blocked = Math.max(0, 1 - statusPct(target, 'healBlock'));
       return Math.min(amount * blocked, target.maxHp - target.hp) * 0.9;
     }
     case 'buff':
-      return buffValue(eff.stat, eff.pct, target);
+      return buffValue(eff.stat, eff.pct, target, state);
     case 'debuff': {
       // 削弱对方核心属性，按目标属性的两回合收益估值
       const base =
         eff.stat === 'atk'
-          ? effectiveStat(target, 'atk') * 1.6
+          ? effectiveStat(target, 'atk', state) * 1.6
           : eff.stat === 'def'
-            ? effectiveStat(target, 'def') * 1.2
+            ? effectiveStat(target, 'def', state) * 1.2
             : 5;
       return base * eff.pct * 1.6;
     }
     case 'shield':
       return (
         Math.min(
-          eff.scale === 'maxHp' ? target.maxHp * eff.ratio : effectiveStat(actor, 'int') * eff.ratio,
+          eff.scale === 'maxHp'
+            ? target.maxHp * eff.ratio
+            : effectiveStat(actor, 'int', state) * eff.ratio,
           target.maxHp * 0.5,
         ) * 0.55
       );
     case 'burn':
-      return effectiveStat(actor, 'int') * eff.ratio * eff.turns * 0.55;
+      return effectiveStat(actor, 'int', state) * eff.ratio * eff.turns * 0.55;
     case 'poison':
       return target.maxHp * eff.pctMaxHp * eff.turns * 0.55;
     case 'regen': {
@@ -131,6 +133,26 @@ function effectValue(
     case 'dispel': {
       const good = target.statuses.filter((st) => isBuff(st)).length;
       return good * 11;
+    }
+    case 'if': {
+      const branch = condMet(state, actor, target, eff.when) ? eff.then : (eff.else ?? []);
+      let value = 0;
+      for (const sub of branch) {
+        if (sub.type === 'if') value += effectValue(state, actor, target, sub);
+        else if (sub.target) {
+          for (const t of resolveTargets(state, actor, sub.target)) {
+            value += effectValue(state, actor, t, sub);
+          }
+        } else value += effectValue(state, actor, target, sub);
+      }
+      return value;
+    }
+    case 'cooldown': {
+      const owned = target.skills.length + target.talents.length;
+      return owned * (eff.reset ? 5 : 3) * (eff.amount ?? 1);
+    }
+    case 'loseHp': {
+      return -target.maxHp * eff.ratio * 0.8;
     }
   }
 }
@@ -181,7 +203,7 @@ export function autoAction(state: BattleState): Action {
 
   if (!isDisarmed(actor)) {
     for (const target of attackTargets) {
-      const dmg = adjustDamage(actor, target, physicalDamage(actor, target, 1));
+      const dmg = adjustDamage(actor, target, physicalDamage(actor, target, 1, 0, state));
       let score = dmg + (dmg >= target.hp ? 40 : 0);
       const lifesteal = statusPct(actor, 'lifesteal');
       if (lifesteal > 0) score += Math.min(actor.maxHp - actor.hp, dmg * lifesteal) * 0.5;

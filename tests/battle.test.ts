@@ -24,6 +24,8 @@ function starters(s: BattleState): string[] {
 /** 把双方各一名武将放到场上，其余进后援，方便做定点测试。 */
 function duel(seed = 42): BattleState {
   const s = createBattle(seed);
+  // 定点测试不依赖随机编队带来的天赋，需要时用 giveTalent 显式挂上。
+  for (const u of s.units) u.talents = [];
   const player = s.units.filter((u) => u.side === 'player');
   const enemy = s.units.filter((u) => u.side === 'enemy');
   const hero = player[0];
@@ -54,6 +56,11 @@ function play(seed: number): BattleState {
 /** 临时把武将的技能换成指定技能，方便定点测试。 */
 function giveSkill(unit: Unit, skillId: string): void {
   unit.skills = [{ id: skillId, cdLeft: 0 }];
+}
+
+/** 临时给武将挂上指定天赋。 */
+function giveTalent(unit: Unit, talentId: string): void {
+  unit.talents = [{ id: talentId, cdLeft: 0, uses: 0, fired: false }];
 }
 
 function giveStatus(unit: Unit, kind: StatusKind, extra: Partial<Status> = {}): void {
@@ -267,7 +274,9 @@ describe('控制与状态机制', () => {
 
     const after = takeAction(s, { type: 'attack', actorId: hero.id, targetId: foe.id });
     expect(unitById(after, foe.id).alive).toBe(false);
-    expect(unitById(after, hero.id).statuses.some((st) => st.kind === 'taunt')).toBe(false);
+    expect(
+      unitById(after, hero.id).statuses.some((st) => st.kind === 'taunt' && st.sourceId === foe.id),
+    ).toBe(false);
   });
 
   it('易伤与虚弱按比例改变伤害', () => {
@@ -412,5 +421,160 @@ describe('控制与状态机制', () => {
     });
     expect(unitById(healed, hero2.id).hp).toBeGreaterThan(40);
     expect(unitById(healed, foe2.id).hp).toBeLessThanOrEqual(beforeFoe);
+  });
+});
+
+describe('技能类型与天赋触发', () => {
+  it('被动光环按百分比提升属性', () => {
+    const s = duel();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    const before = effectiveStat(hero, 'atk', s);
+    giveTalent(hero, 'wusheng');
+    expect(effectiveStat(hero, 'atk', s)).toBe(Math.round(hero.base.atk * 1.12));
+    expect(effectiveStat(hero, 'atk', s)).toBeGreaterThan(before);
+  });
+
+  it('受到伤害后触发天赋', () => {
+    const s = duel();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    const foe = fieldUnitsOf(s, 'enemy')[0];
+    giveTalent(hero, 'qiaobian_ling');
+    s.activeId = foe.id;
+
+    const after = takeAction(s, { type: 'attack', actorId: foe.id, targetId: hero.id });
+    const h = unitById(after, hero.id);
+    expect(h.alive).toBe(true);
+    expect(h.talents[0].uses).toBe(1);
+    expect(h.statuses.some((st) => st.kind === 'buff' && st.stat === 'spd')).toBe(true);
+    expect(after.log.some((entry) => entry.kind === 'trigger' && entry.text.includes('巧变之灵'))).toBe(
+      true,
+    );
+  });
+
+  it('阵亡时触发天赋，并为友军提供护盾', () => {
+    const s = twoFoes();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    const ally = unitById(s, s.bench.player[0]);
+    s.field.player[1] = ally.id;
+    s.bench.player = s.bench.player.slice(1);
+    giveTalent(hero, 'yizhong_buqu');
+    hero.hp = 1;
+    const foe = fieldUnitsOf(s, 'enemy')[0];
+    s.activeId = foe.id;
+
+    const after = takeAction(s, { type: 'attack', actorId: foe.id, targetId: hero.id });
+    expect(unitById(after, hero.id).alive).toBe(false);
+    const shielded = unitById(after, ally.id);
+    expect(
+      shielded.statuses.some(
+        (st) => st.kind === 'shield' && st.amount === Math.round(shielded.maxHp * 0.12),
+      ),
+    ).toBe(true);
+  });
+
+  it('击杀敌人后触发追击', () => {
+    const s = twoFoes();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    const [foe, other] = fieldUnitsOf(s, 'enemy');
+    giveTalent(hero, 'tieqi_zhuiji');
+    foe.hp = 1;
+    s.activeId = hero.id;
+
+    const after = takeAction(s, { type: 'attack', actorId: hero.id, targetId: foe.id });
+    expect(unitById(after, foe.id).alive).toBe(false);
+    expect(unitById(after, other.id).hp).toBeLessThan(other.hp);
+  });
+
+  it('生命阈值天赋每场只触发一次', () => {
+    const s = duel();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    const foe = fieldUnitsOf(s, 'enemy')[0];
+    giveTalent(hero, 'fangu_juexing');
+    hero.maxHp = 1000;
+    hero.hp = 300;
+    s.activeId = foe.id;
+
+    const after = takeAction(s, { type: 'attack', actorId: foe.id, targetId: hero.id });
+    const h = unitById(after, hero.id);
+    expect(h.talents[0].fired).toBe(true);
+    expect(h.talents[0].uses).toBe(1);
+    expect(h.statuses.some((st) => st.kind === 'buff' && st.stat === 'atk')).toBe(true);
+    expect(h.statuses.some((st) => st.kind === 'lifesteal')).toBe(true);
+  });
+
+  it('触发技能不能主动施展', () => {
+    const s = duel();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    giveSkill(hero, 'wusheng');
+    s.activeId = hero.id;
+    expect(() =>
+      takeAction(s, { type: 'skill', actorId: hero.id, skillId: 'wusheng' }),
+    ).toThrow(/被动天赋/);
+  });
+
+  it('友军阵亡后为其余友军缩短冷却', () => {
+    const s = twoFoes();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    const ally = unitById(s, s.bench.player[0]);
+    const doomed = unitById(s, s.bench.player[1]);
+    s.field.player[1] = ally.id;
+    s.bench.player = s.bench.player.slice(2);
+    giveTalent(hero, 'zhijun_yanshu');
+    ally.skills = [{ id: 'qinglong', cdLeft: 2 }];
+    // 让另一名友军阵亡：直接放进场上并设为残血。
+    s.field.player[2] = doomed.id;
+    doomed.hp = 1;
+    const foe = fieldUnitsOf(s, 'enemy')[0];
+    s.activeId = foe.id;
+    // 让行动结束后直接轮到敌人自己，避免友军回合开始的自然冷却打乱断言。
+    s.queue = [foe.id];
+
+    const after = takeAction(s, { type: 'attack', actorId: foe.id, targetId: doomed.id });
+    const a = unitById(after, ally.id);
+    expect(a.skills[0].cdLeft).toBe(1);
+    expect(a.statuses.some((st) => st.kind === 'shield')).toBe(true);
+  });
+
+  it('敌方普攻后触发削弱来源的天赋', () => {
+    const s = duel();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    const foe = fieldUnitsOf(s, 'enemy')[0];
+    giveTalent(hero, 'quhu_tunlang');
+    s.activeId = foe.id;
+
+    const after = takeAction(s, { type: 'attack', actorId: foe.id, targetId: hero.id });
+    const f = unitById(after, foe.id);
+    expect(f.statuses.some((st) => st.kind === 'debuff' && st.stat === 'atk')).toBe(true);
+  });
+
+  it('自损战法失去生命并换取攻击增益', () => {
+    const s = duel();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    giveSkill(hero, 'kurou');
+    hero.hp = hero.maxHp;
+    s.activeId = hero.id;
+
+    const after = takeAction(s, { type: 'skill', actorId: hero.id, skillId: 'kurou' });
+    const h = unitById(after, hero.id);
+    expect(h.hp).toBe(hero.maxHp - Math.round(hero.maxHp * 0.1));
+    expect(h.statuses.some((st) => st.kind === 'buff' && st.stat === 'atk')).toBe(true);
+  });
+
+  it('生命高于阈值时战法倍率提升', () => {
+    const s = duel();
+    const hero = fieldUnitsOf(s, 'player')[0];
+    const foe = fieldUnitsOf(s, 'enemy')[0];
+    giveSkill(hero, 'guandujuezhan');
+    s.activeId = hero.id;
+    const before = foe.hp;
+    const expected = adjustDamage(hero, foe, physicalDamage(hero, foe, 2.5));
+
+    const after = takeAction(s, {
+      type: 'skill',
+      actorId: hero.id,
+      skillId: 'guandujuezhan',
+      targetId: foe.id,
+    });
+    expect(unitById(after, foe.id).hp).toBe(Math.max(0, before - expected));
   });
 });

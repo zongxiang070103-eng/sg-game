@@ -1,13 +1,371 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="战棋 —— 原创明牌回合制战棋：二十员武将、十人编队、三人上阵，控制与增益减益交织，按速度出手" />
-    <title>战棋</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/web/main.ts"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b14">
+<meta name="description" content="将星谱 —— 60 名武将的 3v3 明牌战棋：十人编队、三人上场、倒下换将。">
+<title>将星谱 · 三国卡牌演武</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b0a09'/%3E%3Crect x='5' y='5' width='22' height='22' rx='2' fill='none' stroke='%23b8352c' stroke-width='2'/%3E%3Ctext x='16' y='23' font-size='16' text-anchor='middle' fill='%23e8c37a' font-family='serif'%3E%E5%B0%86%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="icon-sword" viewBox="0 0 24 24">
+      <path d="M14.5 3.5 20.5 9.5 11 19l-3 .5.5-3z"/>
+      <path d="M4 20l4-4M13 5l6 6"/>
+    </symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24">
+      <path d="M12 3 20 6v6c0 5-3.4 7.6-8 9-4.6-1.4-8-4-8-9V6z"/>
+      <path d="M12 7v10"/>
+    </symbol>
+    <symbol id="icon-scroll" viewBox="0 0 24 24">
+      <path d="M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/>
+      <path d="M8 8h8M8 12h8M8 16h5"/>
+    </symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24">
+      <path d="M4 7h16M4 12h16M4 17h16"/>
+      <circle cx="9" cy="7" r="1.8"/><circle cx="15" cy="12" r="1.8"/><circle cx="8" cy="17" r="1.8"/>
+    </symbol>
+    <symbol id="icon-sound" viewBox="0 0 24 24">
+      <path d="M4 9h3l4-3v12l-4-3H4z"/>
+      <path d="M16 9.5a4 4 0 0 1 0 5M18.5 7a7 7 0 0 1 0 10"/>
+    </symbol>
+    <symbol id="icon-music" viewBox="0 0 24 24">
+      <path d="M9 17V5l9-2v12"/>
+      <circle cx="6.5" cy="17.5" r="2.5"/><circle cx="15.5" cy="15.5" r="2.5"/>
+    </symbol>
+    <symbol id="icon-back" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="icon-bolt" viewBox="0 0 24 24"><path d="M13 2 5 14h6l-1 8 9-13h-6z"/></symbol>
+    <symbol id="icon-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 5h11l-2 4 2 4H6"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+
+    <symbol id="w-guandao" viewBox="0 0 120 360">
+      <path d="M60 20v320"/>
+      <path d="M60 30c-34 18-34 78 0 96 34-18 34-78 0-96z"/>
+      <path d="M60 48c-20 14-20 50 0 62 20-12 20-48 0-62z"/>
+      <path d="M60 128l-10 20M60 128l10 20"/>
+    </symbol>
+    <symbol id="w-serpent" viewBox="0 0 120 360">
+      <path d="M60 20v320"/>
+      <path d="M60 18c-14 22 14 40 0 62s14 40 0 62"/>
+      <path d="M60 18l-12 24M60 18l12 24"/>
+      <path d="M60 142l-9 18M60 142l9 18"/>
+    </symbol>
+    <symbol id="w-spear" viewBox="0 0 120 360">
+      <path d="M60 20v320"/>
+      <path d="M60 14l12 44-12 36-12-36zM60 94v10"/>
+      <path d="M60 104l-10 18M60 104l10 18"/>
+    </symbol>
+    <symbol id="w-halberd" viewBox="0 0 120 360">
+      <path d="M60 20v320"/>
+      <path d="M60 34l38 20-20 32-18-8zM60 86c18 4 26 14 26 26"/>
+      <path d="M60 120l-9 18M60 120l9 18"/>
+    </symbol>
+    <symbol id="w-blade" viewBox="0 0 120 360">
+      <path d="M60 20v320"/>
+      <path d="M60 26c40 10 48 68 24 98l-24-14zM60 110c10 16 12 32 6 46"/>
+      <path d="M60 156l-9 18M60 156l9 18"/>
+    </symbol>
+    <symbol id="w-shield" viewBox="0 0 120 360">
+      <path d="M60 34c28 10 42 30 42 68 0 56-20 96-42 124-22-28-42-68-42-124 0-38 14-58 42-68z"/>
+      <circle cx="60" cy="120" r="14"/>
+      <path d="M60 52v182"/>
+    </symbol>
+
+    <symbol id="card-scene" viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice">
+      <circle cx="150" cy="128" r="96" fill="currentColor" opacity=".10"/>
+      <circle cx="150" cy="128" r="78" fill="none" stroke="currentColor" stroke-width=".7" opacity=".45" stroke-dasharray="1 4"/>
+      <circle cx="150" cy="128" r="60" fill="none" stroke="currentColor" stroke-width=".5" opacity=".3"/>
+      <path d="M0 330C40 300 80 318 120 296s80-28 120-4 50 14 60 4v124H0z" fill="currentColor" opacity=".16"/>
+      <path d="M0 356c50-26 90-6 140-30s80-22 130 0 30 8 30 8v86H0z" fill="currentColor" opacity=".22"/>
+      <path d="M0 386c60-20 110-6 170-26s90-12 130-2v62H0z" fill="currentColor" opacity=".30"/>
+      <g fill="none" stroke="currentColor" stroke-width=".8" opacity=".35">
+        <path d="M-10 210c50-14 80 4 120-6s70-16 110-4 60 14 90 4"/>
+        <path d="M-10 226c50-14 80 4 120-6s70-16 110-4 60 14 90 4"/>
+      </g>
+      <g fill="currentColor" opacity=".5">
+        <circle cx="42" cy="90" r="1"/><circle cx="66" cy="62" r=".8"/><circle cx="250" cy="76" r="1.1"/>
+        <circle cx="272" cy="150" r=".7"/><circle cx="36" cy="180" r=".7"/><circle cx="220" cy="40" r=".8"/>
+      </g>
+    </symbol>
+
+    <symbol id="card-halo" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="94" fill="none" stroke="currentColor" stroke-width=".6" opacity=".7"/>
+      <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width=".5" stroke-dasharray="1 6" opacity=".8"/>
+      <circle cx="100" cy="100" r="62" fill="none" stroke="currentColor" stroke-width=".4" opacity=".5"/>
+      <g stroke="currentColor" stroke-width="1.4" opacity=".7">
+        <path d="M100 2v10M100 188v10M2 100h10M188 100h10"/>
+        <path d="M31 31l7 7M169 169l-7-7M169 31l-7 7M31 169l7-7"/>
+      </g>
+    </symbol>
+
+    <symbol id="stage-ink" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <g fill="currentColor">
+        <path d="M0 700c180-60 280-10 420-70s280-70 440-10 300 80 460 20 160-40 280-10v270H0z" opacity=".22"/>
+        <path d="M0 760c200-50 340 0 520-60s320-50 500 10 280 50 440 0 120-20 140-10v200H0z" opacity=".32"/>
+      </g>
+      <g fill="none" stroke="currentColor" stroke-width="1.2" opacity=".25">
+        <path d="M-40 300c120-40 220 20 340-10s220-80 360-50 220 90 380 50 240-70 360-40 180 30 240 10"/>
+        <path d="M60 360c110-30 200 16 310-8s190-60 320-34 190 66 330 36 220-52 320-30"/>
+        <path d="M-20 620c140-30 240 18 370-8s210-50 350-22 210 54 360 24 220-42 320-20" opacity=".5"/>
+      </g>
+    </symbol>
+
+    <symbol id="cloud-art" viewBox="0 0 400 120">
+      <path d="M2 78c40 0 50-26 84-26 26 0 34 14 60 14 18 0 26-18 52-18 34 0 44 26 80 26 40 0 50-18 82-18 26 0 36 14 58 14" fill="none" stroke="currentColor" stroke-width="1.1"/>
+      <path d="M30 92c36 0 46-16 74-16 24 0 32 10 54 10 20 0 30-12 52-12 30 0 40 18 70 18 32 0 44-12 72-12" fill="none" stroke="currentColor" stroke-width=".7" opacity=".55"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="stage" aria-hidden="true">
+  <div class="stage-sky"></div>
+  <div class="stage-glow"></div>
+  <div class="stage-moon"></div>
+  <svg class="stage-art" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice"><use href="#stage-ink"/></svg>
+  <svg class="stage-cloud stage-cloud--a" viewBox="0 0 400 120"><use href="#cloud-art"/></svg>
+  <svg class="stage-cloud stage-cloud--b" viewBox="0 0 400 120"><use href="#cloud-art"/></svg>
+  <svg class="stage-cloud stage-cloud--c" viewBox="0 0 400 120"><use href="#cloud-art"/></svg>
+  <div class="stage-embers"></div>
+</div>
+
+<main class="app">
+
+  <!-- ================= 点将台 ================= -->
+  <section class="screen is-active" id="screen-home" aria-label="点将台">
+    <header class="hud">
+      <div class="hud-date">
+        <span>六十将星</span>
+        <b>演武场</b>
+      </div>
+      <div class="hud-res">
+        <span class="res"><i>将</i><b>60</b></span>
+        <span class="res"><i>法</i><b>120</b></span>
+        <span class="res"><i>赋</i><b>60</b></span>
+      </div>
+      <div class="hud-tools">
+        <button class="tool" id="sound-toggle" data-audio-toggle="sound" type="button" aria-label="关闭音效" aria-pressed="true" title="音效：开">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-sound"/></svg>
+        </button>
+        <button class="tool is-off" id="music-toggle" data-audio-toggle="music" type="button" aria-label="开启环境音乐" aria-pressed="false" title="环境音乐：关">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-music"/></svg>
+        </button>
+        <button class="tool" aria-label="设置" data-toast="设置面板暂未接入">
+          <svg viewBox="0 0 24 24"><use href="#icon-settings"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="home">
+      <div class="home-title">
+        <h1 class="brand">将星谱</h1>
+        <span class="brand-seal" aria-hidden="true">武</span>
+        <p class="brand-line">六十将星　三人同阵</p>
+        <p class="brand-air">十人编队，倒下换将。</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-card" id="feature-card"></div>
+        <div class="feature-actions">
+          <button class="cta" id="home-cta">
+            <span>出征</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-chevron"/></svg>
+          </button>
+          <button class="ghost-btn" id="home-detail">详报</button>
+        </div>
+      </div>
+
+      <div class="roster">
+        <div class="roster-head">
+          <h2>点将</h2>
+          <p>点卡片换主将　出征入阵</p>
+        </div>
+        <div class="roster-tools">
+          <div class="roster-filters" id="roster-filters" role="group" aria-label="按势力筛选点将"></div>
+          <button class="roster-page" id="roster-page" type="button">换一批</button>
+        </div>
+        <div class="roster-grid" id="roster-grid"></div>
+        <button class="codex-entry" data-go="codex" type="button" aria-label="打开武将图鉴，60 位武将">
+          <span class="ce-seal" aria-hidden="true">鉴</span>
+          <span class="ce-text"><b>武将图鉴</b><small>60 位武将 · 两战法一天赋</small></span>
+          <span class="ce-tags" aria-hidden="true"><i>魏</i><i>蜀</i><i>吴</i><i>群</i></span>
+        </button>
+        <p class="roster-foot">十人编队　三人上场　倒下换将</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 布阵 ================= -->
+  <section class="screen" id="screen-deploy" aria-label="布阵">
+    <header class="hud hud--battle">
+      <div class="hud-left">
+        <button class="tool" data-go="home" aria-label="返回点将">
+          <svg viewBox="0 0 24 24"><use href="#icon-back"/></svg>
+        </button>
+        <div class="round-read"><span>首发</span><b id="deploy-count">0</b><s>/ 3</s></div>
+        <div class="seed"><span>编队</span><b>10</b></div>
+      </div>
+      <div class="hud-right">
+        <button class="top-btn top-btn--red" id="deploy-start" disabled>开战</button>
+      </div>
+    </header>
+    <div class="deploy">
+      <div class="deploy-head">
+        <h2>布阵</h2>
+        <p>从十人编队中选出三名首发；其余七人在后方待命，倒下即刻顶上。</p>
+      </div>
+      <div class="deploy-grid" id="deploy-grid"></div>
+      <p class="deploy-note" id="deploy-note">已选 0 / 3</p>
+    </div>
+  </section>
+
+  <!-- ================= 卡牌战场 ================= -->
+  <section class="screen" id="screen-battle" aria-label="卡牌战场">
+    <header class="hud hud--battle">
+      <div class="hud-left">
+        <button class="tool" data-go="home" aria-label="返回点将">
+          <svg viewBox="0 0 24 24"><use href="#icon-back"/></svg>
+        </button>
+        <div class="round-read"><span>回合</span><b id="round-num">1</b><s>/ 30</s></div>
+        <div class="seed"><span>编队</span><b>10 · 3</b></div>
+      </div>
+      <div class="hud-right">
+        <button class="top-btn" id="log-toggle">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-scroll"/></svg>
+          战报
+        </button>
+        <button class="top-btn top-btn--red" id="result-open">结算</button>
+      </div>
+    </header>
+
+    <div class="battle">
+      <div class="team team-enemy" aria-label="敌方阵容">
+        <div class="team-field" id="enemy-team"></div>
+        <div class="team-bench" id="enemy-bench" aria-label="敌方后援"></div>
+      </div>
+
+      <div class="battle-center">
+        <div class="round-mark" aria-hidden="true">
+          <span>第</span><b id="round-big">1</b><span>回合</span>
+        </div>
+        <div class="turn-wrap">
+          <span class="turn-label">出手顺序</span>
+          <div class="turn-strip" id="turn-strip"></div>
+        </div>
+        <p class="battle-hint" id="battle-hint">点敌将改目标　再选战法</p>
+      </div>
+
+      <div class="team team-ally" aria-label="我方阵容">
+        <div class="team-field" id="ally-team"></div>
+        <div class="team-bench" id="ally-bench" aria-label="我方后援"></div>
+      </div>
+      <div class="action-bar" id="action-bar" aria-label="军令"></div>
+    </div>
+
+    <p class="sr-only" id="battle-live" aria-live="polite"></p>
+
+    <aside class="log-panel" id="log-panel" role="dialog" aria-modal="true" aria-labelledby="log-title" hidden>
+      <header class="log-head">
+        <h2 id="log-title">战报</h2>
+        <button class="tool" id="log-close" aria-label="收起战报">
+          <svg viewBox="0 0 24 24"><use href="#icon-close"/></svg>
+        </button>
+      </header>
+      <ol class="log-list" id="log-list" aria-live="polite"></ol>
+    </aside>
+    <div class="layer-backdrop" id="log-backdrop" hidden></div>
+
+  </section>
+
+  <!-- ================= 武将图鉴 ================= -->
+  <section class="screen" id="screen-codex" aria-label="武将图鉴">
+    <header class="hud hud--codex">
+      <div class="cx-hud-left">
+        <button class="tool" data-go="home" aria-label="返回点将">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-back"/></svg>
+        </button>
+        <div class="cx-brand">
+          <span class="cx-brand-seal" aria-hidden="true">鉴</span>
+          <div><b>武将图鉴</b><small>六十武将 · 两战法一天赋</small></div>
+        </div>
+      </div>
+      <div class="cx-hud-progress">
+        <span>收录</span><b id="cx-seen">60</b><s>/</s><em id="cx-total">60</em>
+        <span class="cx-hud-bar" role="progressbar" aria-valuemin="0" aria-valuemax="60" aria-valuenow="60" aria-label="图鉴收录进度"><i id="cx-progress-bar" style="width:100%"></i></span>
+      </div>
+      <div class="hud-tools">
+        <button class="tool" data-audio-toggle="sound" type="button" aria-label="关闭音效" aria-pressed="true" title="音效：开">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-sound"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="cx-shell">
+      <div class="cx-sheet">
+        <nav class="cx-tabs" role="tablist" aria-label="图鉴分类">
+          <button class="cx-tab is-on" id="cx-tab-chars" role="tab" aria-selected="true" aria-controls="cx-panel-chars" tabindex="0" data-cx-tab="chars">武将志<i>一</i><span class="cx-tab-count">60</span></button>
+        </nav>
+
+        <div class="cx-toolbar">
+          <div class="cx-filters" id="cx-filters" role="group" aria-label="按势力筛选"></div>
+          <label class="cx-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>
+            <input id="cx-search" type="search" placeholder="搜武将：姓名、势力、战法、天赋…" autocomplete="off" aria-label="搜索武将">
+            <button class="cx-search-clear" id="cx-search-clear" type="button" aria-label="清除搜索" hidden>×</button>
+          </label>
+        </div>
+
+        <div class="cx-scroll">
+          <section class="cx-panel is-on" id="cx-panel-chars" role="tabpanel" aria-labelledby="cx-tab-chars" data-cx-panel="chars">
+            <p class="cx-note"><span>共 60 名武将。每页是一张武将面板：<em>生命</em>、<em>攻击</em>、<em>防御</em>、<em>智力</em>、<em>速度</em>五项属性，配两式主动战法与一个天赋。数值与战斗完全一致。</span></p>
+            <div id="cx-char-groups"></div>
+            <p class="cx-empty" id="cx-char-empty" hidden></p>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <p class="sr-only" id="cx-live" aria-live="polite"></p>
+  </section>
+
+  <!-- ================= 武将详报 ================= -->
+  <div class="detail-layer" id="detail-layer" hidden>
+    <div class="detail-panel" id="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detail-name"></div>
+  </div>
+
+  <!-- ================= 结算 ================= -->
+  <div class="modal" id="result" hidden>
+    <div class="result-poster" role="dialog" aria-modal="true" aria-labelledby="result-stamp" aria-describedby="result-kicker result-note">
+      <span class="result-stamp" id="result-stamp">大捷</span>
+      <p class="result-kicker" id="result-kicker">敌军尽退，演武告捷</p>
+      <div class="result-rank">
+        <span>评价</span>
+        <b id="result-rank">S</b>
+      </div>
+      <dl class="result-rows">
+        <div><dt>回合</dt><dd id="result-round">1</dd></div>
+        <div><dt>存活</dt><dd id="result-alive">3</dd></div>
+        <div><dt>后援</dt><dd id="result-bench">7</dd></div>
+        <div><dt>总伤害</dt><dd id="result-damage">0</dd></div>
+      </dl>
+      <p class="result-note" id="result-note"></p>
+      <div class="result-actions">
+        <button class="cta" id="result-again">再战</button>
+        <button class="ghost-btn" data-go="home">返回点将</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="skill-callout" id="skill-callout" aria-hidden="true" hidden>
+    <span class="callout-user" id="callout-user"></span>
+    <span class="callout-name" id="callout-name"></span>
+  </div>
+</main>
+
+<script type="module" src="/src/web/main.ts"></script>
+</body>
 </html>

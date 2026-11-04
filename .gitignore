@@ -3,6 +3,13 @@ dist/
 .DS_Store
 *.log
 
+# 本地账号数据库（含密码哈希与会话，绝不入库）
+server/data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
 # 本项目为原创游戏，不包含任何第三方游戏包体
 *.apk
 *.apks
