@@ -388,4 +388,6 @@ CLAUDE.md     给 Claude / 协作者的流程、调试与验证约定
 
 ## 许可
 
-[MIT](LICENSE)
+代码与文档以 [MIT](LICENSE) 许可发布。
+
+美术资源单独说明，详见 [NOTICE](NOTICE)：`src/assets/cards/` 为 CC0 1.0；`src/assets/codex/` 按各自来源说明；`src/assets/portraits/` 为 AI 生成资源包，不在 MIT 许可范围内，仅用于课程演示与界面预览，再分发前请确认生成平台条款或替换为原创 / CC0 素材。
