@@ -107,22 +107,29 @@ export function cardHTML(g: GeneralDef, opts: CardOptions = {}, unit?: CardView)
   const selected = opts.selected ? ' is-selected' : '';
   const pressed = opts.selected ? ' aria-pressed="true"' : '';
   const extra = opts.extraClass ? ` ${opts.extraClass}` : '';
-  const plate = vis.plate
-    ? `<img class="card-plate" src="${vis.plate}" alt="" aria-hidden="true" draggable="false" loading="lazy" decoding="async">`
+  const scene = vis.scene;
+  /** 图鉴与首页点将列很长，按需加载；战场、布阵与详报用即时加载，避免切屏时闪黑。 */
+  const load = ctx === 'roster' ? 'loading="lazy"' : 'loading="eager"';
+  const plate = !scene && vis.plate
+    ? `<img class="card-plate" src="${vis.plate}" alt="" aria-hidden="true" draggable="false" ${load} decoding="async">`
     : '';
-  const art = vis.art
+  const art = !scene && vis.art
     ? `<img class="card-glow" src="${vis.art}" alt="" aria-hidden="true" draggable="false">
-        <img class="card-portrait" src="${vis.art}" alt="" draggable="false" loading="lazy" decoding="async">`
+        <img class="card-portrait" src="${vis.art}" alt="" draggable="false" ${load} decoding="async">`
+    : '';
+  const sceneImg = scene
+    ? `<img class="card-scene-img" src="${scene}" alt="" aria-hidden="true" draggable="false" ${load} decoding="async">`
     : '';
 
-  return `<article class="card${selected}${extra}" data-id="${v.id}" style="--accent:${vis.accent};--accent-2:${vis.accent2};--i:${opts.index ?? 0}"${roleAttrs}${pressed} aria-label="${aria}">
+  return `<article class="card${scene ? ' has-scene' : ''}${selected}${extra}" data-id="${v.id}" style="--accent:${vis.accent};--accent-2:${vis.accent2};--i:${opts.index ?? 0}"${roleAttrs}${pressed} aria-label="${aria}">
     <div class="card-frame">
-      <div class="card-art${vis.art ? ' has-portrait' : ''}">
+      <div class="card-art${scene ? ' has-scene' : vis.art ? ' has-portrait' : ''}">
         <svg class="card-scene" viewBox="0 0 300 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#card-scene"/></svg>
         <div class="card-rays" aria-hidden="true"></div>
         <svg class="card-halo" viewBox="0 0 200 200" aria-hidden="true"><use href="#card-halo"/></svg>
         <svg class="card-weapon" viewBox="0 0 120 360" aria-hidden="true"><use href="#${vis.weapon}"/></svg>
         <span class="card-watermark" aria-hidden="true">${vis.watermark}</span>
+        ${sceneImg}
         ${plate}
         ${art}
         <div class="card-scrim" aria-hidden="true"></div>

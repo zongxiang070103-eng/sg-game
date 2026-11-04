@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { GENERAL_BY_ID, GENERALS, SKILL_BY_ID } from '../src/core/data';
 import type { Status } from '../src/core/types';
 import { detailHTML, statusTagsHTML, viewOfGeneral } from '../src/web/cards';
+import { sceneFor } from '../src/web/meta';
 
 function status(kind: Status['kind'], label: string, extra: Partial<Status> = {}): Status {
   return { kind, label, turns: 2, appliedAt: 0, ...extra };
@@ -66,5 +67,21 @@ describe('武将详报', () => {
     const html = detailHTML(GENERAL_BY_ID.guanyu);
     expect(html).toContain('role="img"');
     expect(html).not.toContain('role="button"');
+  });
+});
+
+describe('水墨场景立绘', () => {
+  it('六十名武将都有可用的场景立绘', () => {
+    for (const general of GENERALS) {
+      expect(sceneFor(general.id), `${general.name} 缺少场景立绘`).toBeTruthy();
+    }
+  });
+
+  it('卡面使用满铺场景图，而不是旧透明立绘', () => {
+    const html = detailHTML(GENERAL_BY_ID.guanyu);
+    expect(html).toContain('card-scene-img');
+    expect(html).toContain('has-scene');
+    expect(html).not.toContain('card-portrait');
+    expect(html).not.toContain('card-plate');
   });
 });

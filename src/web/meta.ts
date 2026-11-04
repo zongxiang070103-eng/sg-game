@@ -42,6 +42,12 @@ const CARD_FILES = import.meta.glob('../assets/cards/*.png', {
   import: 'default',
 }) as Record<string, string>;
 
+const SCENE_FILES = import.meta.glob('../assets/portraits/*.webp', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}) as Record<string, string>;
+
 const CODEX_FILES = import.meta.glob('../assets/codex/*.webp', {
   eager: true,
   query: '?url',
@@ -54,6 +60,9 @@ function basename(path: string, ext: string): string {
 
 const CARD_ART: Record<string, string> = Object.fromEntries(
   Object.entries(CARD_FILES).map(([path, url]) => [basename(path, '.png'), url]),
+);
+const SCENE_ART: Record<string, string> = Object.fromEntries(
+  Object.entries(SCENE_FILES).map(([path, url]) => [basename(path, '.webp'), url]),
 );
 const CODEX_ART: Record<string, string> = Object.fromEntries(
   Object.entries(CODEX_FILES).map(([path, url]) => [basename(path, '.webp'), url]),
@@ -84,6 +93,11 @@ export function plateFor(id: string): string | null {
   return null;
 }
 
+/** 整幅水墨场景立绘：满铺卡面，优先于透明立绘与图版。 */
+export function sceneFor(id: string): string | null {
+  return SCENE_ART[id] ?? null;
+}
+
 /** 任意可用美术，用于出手顺序等小头像。 */
 export function artFor(id: string): string | null {
   return portraitFor(id) ?? plateFor(id);
@@ -105,10 +119,12 @@ export interface GeneralVisual {
   watermark: string;
   seal: string;
   rarity: number;
-  /** 全身立绘 PNG，仅六名武将有。 */
+  /** 全身透明立绘 PNG，仅六名早期武将有。 */
   art: string | null;
   /** 图版背景，几乎全员都有。 */
   plate: string | null;
+  /** 整幅水墨场景立绘，当前六十人齐全。 */
+  scene: string | null;
 }
 
 function hash(text: string): number {
@@ -140,6 +156,7 @@ export function visualFor(g: GeneralDef): GeneralVisual {
     rarity: 5,
     art: portraitFor(g.id),
     plate: plateFor(g.id),
+    scene: sceneFor(g.id),
   };
 }
 

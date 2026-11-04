@@ -1,0 +1,2 @@
+# Windows 批处理必须使用 CRLF；LF 会让 cmd 解析多行 if/for 时错位
+*.bat text eol=crlf

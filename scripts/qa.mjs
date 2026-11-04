@@ -309,6 +309,16 @@ try {
   }
 
   async function shot(name) {
+    // 只等视口内的图片解码，图鉴下方的懒加载图片不会拖慢检查。
+    await evaluate(`Promise.all(
+      [...document.querySelectorAll('.screen.is-active img')]
+        .filter((img) => {
+          const r = img.getBoundingClientRect();
+          return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+        })
+        .map((img) => (img.decode ? img.decode().catch(() => undefined) : Promise.resolve()))
+    ).then(() => true)`).catch(() => undefined);
+    await sleep(80);
     const { data } = await cdp.send('Page.captureScreenshot', { format: 'png', fromSurface: true });
     await fs.writeFile(path.join(OUT, name), Buffer.from(data, 'base64'));
   }
@@ -430,6 +440,26 @@ try {
     check('桌面·战场：无横向溢出', info.overflowX <= 1, `溢出 ${info.overflowX}px`);
     check('桌面·战场：军令栏在视口内', info.barBottom <= info.innerHeight + 1, `bottom ${info.barBottom} / ${info.innerHeight}`);
     await shot('battle-1440.png');
+
+    await evaluate(`document.querySelector('#action-bar [data-act="detail"]')?.click()`);
+    const detailReady = await waitFor(`!document.querySelector('#detail-layer')?.hidden`);
+    await shot('detail-1440.png');
+    const detail = await evaluate(`(() => {
+      const layer = document.querySelector('#detail-layer');
+      const img = layer?.querySelector('.card-scene-img');
+      return {
+        name: layer?.querySelector('#detail-name')?.textContent?.trim() ?? '',
+        hasCard: Boolean(layer?.querySelector('.detail-card .card')),
+        imgReady: Boolean(img && img.complete && img.naturalWidth > 0),
+        imgWidth: img?.naturalWidth ?? 0,
+      };
+    })()`);
+    check('桌面·详报：从战场打开详报', detailReady);
+    check('桌面·详报：水墨立绘已加载', detail.imgReady, `naturalWidth ${detail.imgWidth}`);
+    check('桌面·详报：详报结构完整', detail.hasCard && detail.name.length > 0, detail.name);
+    await evaluate(`document.querySelector('[data-detail-close]')?.click()`);
+    const detailClosed = await waitFor(`document.querySelector('#detail-layer')?.hidden`);
+    check('桌面·详报：关闭后回到战场', detailClosed);
 
     await evaluate(`window.jiangxing.debug.finish('victory', 9, 777)`);
     const resultReady = await waitFor(`!document.querySelector('#result')?.hidden`);
@@ -587,7 +617,7 @@ try {
   }
   console.log(`截图与报告：${path.join(OUT, 'report.json')}`);
   console.log(
-    `${report.ok ? '✓ QA 通过' : '✗ QA 未通过'} — ${checks.length - failed.length}/${checks.length} 项检查通过，截图 9 张。`,
+    `${report.ok ? '✓ QA 通过' : '✗ QA 未通过'} — ${checks.length - failed.length}/${checks.length} 项检查通过，截图 10 张。`,
   );
 
   if (!report.ok) process.exitCode = 1;

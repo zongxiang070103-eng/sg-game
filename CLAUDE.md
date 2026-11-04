@@ -15,8 +15,8 @@
 ```bash
 npm run dev          # 开发服务器 5173（/api 代理到 8787）
 npm run typecheck    # 类型检查（秒级）
-npm test             # 单元测试 43 项，约 10 秒
-npm run qa           # 无头浏览器冒烟 + 9 张截图，约 15 秒
+npm test             # 单元测试 45 项，约 10 秒
+npm run qa           # 无头浏览器冒烟 + 10 张截图，约 15 秒
 npm run build        # 类型检查 + 生产构建
 npm run sim          # 双方 AI 跑 300 局，调平衡用
 npm run sim -- --seed 42   # 指定种子打印一整局
@@ -133,5 +133,6 @@ server/               可选账号服务（Node + SQLite）
 
 - 界面语言是“点将台 / 布阵 / 战场 / 图鉴 / 详报 / 结算”，保持文言、克制、低饱和金红配色。
 - 主要交互必须可键盘操作；卡面有 `role`、`aria-label`，弹层要能 Esc 关闭。
-- 新增卡面时使用 `src/assets/cards/` 的全身立绘或 `src/assets/codex/` 的古版画图版；两者都没有才用内置 SVG 兜底。
+- 武将主视觉优先用 `src/assets/portraits/` 的整幅水墨场景（640×915 WebP，满铺卡面）；缺图时才回落到 `src/assets/cards/` 透明立绘或 `src/assets/codex/` 古版画，再缺才用内置 SVG。新增场景图需同时跑 `tests/render.test.ts`，确保 60 人全覆盖。
+- 原图 172MB 不进入仓库；只提交优化后的 WebP，来源与裁切参数写在 `src/assets/portraits/SOURCE.md`。右下角生成平台水印在优化时裁掉，公开发布前确认素材授权。
 - 改完 UI 用 `web-design-engineer` / `frontend-design` 技能复核排版、溢出、对比度与窄屏。

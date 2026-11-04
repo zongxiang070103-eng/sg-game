@@ -1,5 +1,7 @@
 # 立绘来源
 
+> 当前 60 名武将的主视觉已换成 `src/assets/portraits/` 的水墨场景立绘；本目录六张透明全身像仅作场景图缺失时的兜底。
+
 六张立绘全部来自 **Free Game Sprites · Anime Portraits** 资源包，许可为 **CC0 1.0 Universal**：
 
 - 资源页：https://freegamesprites.com/en/packs/anime-portraits
