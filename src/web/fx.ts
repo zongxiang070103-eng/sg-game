@@ -1,5 +1,7 @@
 /** 战场反馈：飘字、斩击、冲击、横向光刃。全部是临时 DOM，动画结束即移除。 */
-export const MOTION = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+import { fastMode } from './url';
+
+export const MOTION = !fastMode() && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export function pulse(el: Element | null, cls: string, ms = 340): void {
   if (!el) return;

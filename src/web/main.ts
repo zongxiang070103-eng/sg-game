@@ -7,6 +7,7 @@ import { deploy } from '../core/battle';
 import { bindAudioControls, syncAudioControls, unlockAudio } from './audio';
 import {
   abandonBattle,
+  debugFinish,
   enterBattle,
   openActorDetail,
   openResultOrLog,
@@ -18,9 +19,11 @@ import {
   showResult,
 } from './battle';
 import { renderCodex, renderCodexList } from './codex';
+import { applyDeepLink } from './deeplink';
 import { renderDeploy, toggleStarter } from './deploy';
 import { renderHome, nextRosterPage, selectFeatured, setRosterFilter } from './home';
 import { app, newRun, type Screen } from './store';
+import { fastMode, seedParam } from './url';
 import {
   $,
   $$,
@@ -38,7 +41,7 @@ const SCREENS: Screen[] = ['home', 'deploy', 'battle', 'codex'];
 /* ---------------- 路由 ---------------- */
 
 function parseHash(): Screen {
-  const name = location.hash.replace(/^#\/?/, '') as Screen;
+  const name = (location.hash.split('?')[0] ?? '').replace(/^#\/?/, '') as Screen;
   return SCREENS.includes(name) ? name : 'home';
 }
 
@@ -85,7 +88,7 @@ function applyScreen(screen: Screen): void {
 /* ---------------- 开场 ---------------- */
 
 function startNewRun(): void {
-  newRun();
+  newRun(seedParam() ?? undefined);
   nav('deploy');
 }
 
@@ -291,6 +294,7 @@ function bindKeyboard(): void {
 /* ---------------- 启动 ---------------- */
 
 function boot(): void {
+  document.documentElement.classList.toggle('is-fast', fastMode());
   bindAudioControls();
   syncAudioControls();
   bindSearch();
@@ -299,11 +303,23 @@ function boot(): void {
   document.addEventListener('pointerdown', unlockAudio, { once: true, passive: true });
   window.addEventListener('hashchange', () => applyScreen(parseHash()));
 
+  const deep = applyDeepLink();
+  if (deep) {
+    if (parseHash() !== deep) history.replaceState(null, '', `#/${deep}`);
+    applyScreen(deep);
+    return;
+  }
+
   if (!location.hash) history.replaceState(null, '', '#/home');
   applyScreen(parseHash());
 }
 
 boot();
 
-// renderBattle 需要时可从控制台手动刷新，方便二次开发。
-(window as unknown as { jiangxing?: unknown }).jiangxing = { app, renderBattle, showResult };
+// 控制台调试入口，方便二次开发与自动化 QA。
+(window as unknown as { jiangxing?: unknown }).jiangxing = {
+  app,
+  renderBattle,
+  showResult,
+  debug: { finish: debugFinish, go: nav, newRun },
+};

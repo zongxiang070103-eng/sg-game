@@ -10,7 +10,7 @@ import {
 } from '../core/battle';
 import { SKILL_BY_ID } from '../core/data';
 import { SKILL_TYPE_LABEL } from '../core/skill';
-import type { BattleState, Side, Unit } from '../core/types';
+import type { BattleState, Outcome, Side, Unit } from '../core/types';
 import { audio } from './audio';
 import { cardHTML, slotHTML, viewOfUnit } from './cards';
 import { addBeam, addImpact, addSlash, flashTurn, floatNum, MOTION, pulse } from './fx';
@@ -609,6 +609,19 @@ export function showResult(): void {
 
   if (victory) audio.win();
   else audio.lose();
+}
+
+/** 调试用：直接判出胜负并打开结算，不经过完整对局。 */
+export function debugFinish(outcome: Outcome = 'victory', round = 12, damage = 0): void {
+  const state = app.battle;
+  if (!state) return;
+  state.phase = 'over';
+  state.outcome = outcome;
+  state.round = Math.max(1, round);
+  app.busy = false;
+  app.damage = Math.max(0, damage);
+  renderBattle(false);
+  showResult();
 }
 
 export function openResultOrLog(): void {

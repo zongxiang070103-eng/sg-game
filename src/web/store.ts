@@ -57,9 +57,9 @@ export function homePageCount(): number {
   return Math.max(1, Math.ceil(filteredGenerals(app.rosterFilter).length / HOME_PAGE_SIZE));
 }
 
-/** 开一场新的演武：双方各十人，进入布阵。 */
-export function newRun(): BattleState {
-  const seed = (Math.floor(Math.random() * 0xffffffff) ^ Date.now()) >>> 0;
+/** 开一场新的演武：双方各十人，进入布阵。传入 seed 可复现同一战局。 */
+export function newRun(seedOverride?: number): BattleState {
+  const seed = seedOverride ?? ((Math.floor(Math.random() * 0xffffffff) ^ Date.now()) >>> 0);
   app.battle = createBattle(seed);
   app.starters = [];
   app.targetId = null;

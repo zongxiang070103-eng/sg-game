@@ -6,6 +6,17 @@ body.is-locked {
   overflow: hidden;
 }
 
+/* ?fast=1：自动化检查用，跳过入场与反馈动画 */
+html.is-fast *,
+html.is-fast *::before,
+html.is-fast *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
 /* 图版背景：没有全身 PNG 的武将用古版画整幅做底 */
 .card-plate {
   position: absolute;

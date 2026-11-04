@@ -216,6 +216,33 @@ npm run build               # 构建静态站点
 
 **本地开发**：运行 `npm run dev`，浏览器访问 `http://127.0.0.1:5173/` 即可。将星谱页面不依赖账号服务；如需调试 `server/` 的账号 API，再另开一个终端运行 `npm run server`。
 
+### 开发与验证
+
+`src/web/` 的四个屏幕支持调试深链，直接落到目标界面，不必每次从头点：
+
+```text
+/?screen=home
+/?screen=codex
+/?screen=deploy&seed=42
+/?screen=battle&seed=42&starters=P0,P1,P2&fast=1
+/?screen=result&outcome=victory&round=9&damage=1234&fast=1
+```
+
+- `seed` 固定随机种子；`starters` 可写 `P0,P1,P2` 或武将 id。
+- `outcome` 为 `victory` / `defeat`，`round`、`damage` 写入结算。
+- `fast=1` 关闭动画与时序，适合截图和自动化。
+- 控制台还可用 `jiangxing.debug.finish('victory', 9, 777)`、`jiangxing.debug.go('codex')`、`jiangxing.debug.newRun(42)`。
+
+浏览器冒烟检查不依赖 Playwright / Puppeteer：
+
+```bash
+npm run qa
+```
+
+脚本会用 Vite 的 Node API 起临时服务器，驱动本机 Chrome / Edge（非标准路径用 `CHROME_PATH` 指定），在 `1440×900` 与 `390×844` 下检查四个屏幕、搜索、选人、战场与结算，断言无控制台错误、无失败请求、无横向溢出，并输出 9 张截图与 `.qa/report.json`。`.qa/` 已加入 `.gitignore`。Node 需 22+（内置 WebSocket）。
+
+更细的协作约定、验证分层、断点与踩坑记录见 [`CLAUDE.md`](CLAUDE.md)。
+
 **生产**：`npm run build && npm run server`，访问 `http://127.0.0.1:8787/`。Node 服务同时提供 `dist/` 静态文件与 `/api`，并对 HTML 设置 CSP 等安全响应头。
 
 **环境变量**：
@@ -257,6 +284,8 @@ src/core/     纯逻辑，不依赖 DOM
 src/cli/      无头模拟器（平衡调参用）
 src/web/      浏览器界面（将星谱）
   main.ts       入口与 hash 路由（#/home、#/deploy、#/battle、#/codex）
+  deeplink.ts   调试深链：直达屏幕、固定种子、预选首发、结算
+  url.ts        查询参数、fast 模式与种子解析
   store.ts      全局状态、编队与筛选
   home.ts       点将台：主将、筛选、翻页
   deploy.ts     布阵：三名首发与开战
@@ -277,7 +306,10 @@ android/      Capacitor 安卓工程（图标、启动图、Gradle 配置）
 capacitor.config.ts  应用 id、名称与 Web 资源目录
 ui-demo/      早期静态视觉稿（已退役，不参与构建）
 data/         配置、武将、技能（可 mod）
-tests/        单元测试
+scripts/      开发辅助脚本
+  qa.mjs        无头浏览器冒烟检查（npm run qa）
+tests/        单元测试（战斗、账号、卡面渲染）
+CLAUDE.md     给 Claude / 协作者的流程、调试与验证约定
 ```
 
 ### 账号与数据库
@@ -315,7 +347,7 @@ tests/        单元测试
 
 胜率接近五五开，说明数值大致对称；平均 15 回合、最长触到 30 回合上限，说明对局有收束，不会无限拖下去。加入控制与增减益后，AI 对局里每局都会出现嘲讽、沉默、缴械、中毒、荆棘、护盾等交换，节奏没有因为状态变多而拖长。真人玩家在技能时机、目标选择上有 AI 没有的空间，这也是操作性所在。
 
-单元测试覆盖伤害公式、冷却、换将、判定，以及沉默 / 缴械 / 嘲讽 / 易伤 / 虚弱 / 荆棘 / 反击 / 中毒 / 回春 / 净化 / 驱散等状态机制，另有天赋触发（被动光环、受伤、阵亡、击杀、生命阈值）、主动技能拒绝施展、冷却缩短、自损换增益与高生命目标增伤等用例；账号部分覆盖用户名 / 密码 / 昵称校验、加盐哈希、错误密码拒绝与兜底校验（`npm test`，38 项：战斗 31 + 账号 7）。
+单元测试覆盖伤害公式、冷却、换将、判定，以及沉默 / 缴械 / 嘲讽 / 易伤 / 虚弱 / 荆棘 / 反击 / 中毒 / 回春 / 净化 / 驱散等状态机制，另有天赋触发（被动光环、受伤、阵亡、击杀、生命阈值）、主动技能拒绝施展、冷却缩短、自损换增益与高生命目标增伤等用例；账号部分覆盖用户名 / 密码 / 昵称校验、加盐哈希、错误密码拒绝与兜底校验；渲染部分校验卡面状态折叠与六十名武将的五维 / 战法 / 天赋结构（`npm test`，43 项：战斗 31 + 账号 7 + 渲染 5）。
 
 ## 路线图
 

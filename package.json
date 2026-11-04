@@ -14,7 +14,8 @@
     "android:apk": "npm run android:sync && cd android && .\\gradlew.bat assembleDebug",
     "sim": "tsx src/cli/sim.ts",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "qa": "node scripts/qa.mjs"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.6.0",
