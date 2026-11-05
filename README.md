@@ -1,5 +1,9 @@
 # 将星谱 · 三国卡牌演武
 
+[![CI](https://github.com/zongxiang070103-eng/sg-game_37/actions/workflows/ci.yml/badge.svg)](https://github.com/zongxiang070103-eng/sg-game_37/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-e8c37a.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-0.2.0-b8352c.svg)](CHANGELOG.md)
+
 > 明牌列阵，胜负在出手之间。
 
 一款 3v3 明牌回合制战棋。双方各带十人编队，三人同时上阵，全员按**速度**轮流出手；每名武将有两个带**冷却**的主动战法，外加一个**不需施展的天赋**——可能常驻加成，也可能在阵亡、受伤、击杀、友军倒下时自动触发；有人倒下，后援立刻顶替。除了拼面板，还要拼**控制、增益、减益、持续伤害**的叠加与化解，以及**触发时机的预判**——沉默住对方的爆发、嘲讽住对方的刺客、用净化解掉眩晕，甚至故意送掉一人来引爆友军的天赋。没有随机数，输赢都能复盘。
@@ -369,10 +373,21 @@ CLAUDE.md     给 Claude / 协作者的流程、调试与验证约定
 - [ ] 战报回放与逐步复盘
 - [ ] 自定义编队 / 剧本编辑器
 
+## 参与贡献
+
+- 开始之前先读 [CONTRIBUTING.md](CONTRIBUTING.md) 与 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
+- 分支模型、合并策略与冲突处理见 [docs/分支管理.md](docs/分支管理.md)。
+- 体系结构与模块边界见 [docs/架构说明.md](docs/架构说明.md)。
+- 项目战略分析（五看三定）见 [docs/五看三定.md](docs/五看三定.md)。
+- 安全问题请按 [SECURITY.md](SECURITY.md) 私下报告，不要公开提 Issue。
+- 提交前运行 `npm run typecheck` 与 `npm test`；UI 改动请附桌面与手机截图。
+
 ## 声明
 
 本项目为原创作品。玩法参考了明牌回合制与战棋类游戏，但**代码、文案、数值、技能设计均为原创**，不包含任何第三方游戏的资源或代码。与《三国杀》《三国杀传奇》及其权利方无任何关联。武将姓名为历史人物，属公共领域。
 
 ## 许可
 
-[MIT](LICENSE)
+代码与文档以 [MIT](LICENSE) 许可发布。
+
+美术资源单独说明，详见 [NOTICE](NOTICE)：`src/assets/cards/` 为 CC0 1.0；`src/assets/codex/` 按各自来源说明；`src/assets/portraits/` 为 AI 生成资源包，不在 MIT 许可范围内，仅用于课程演示与界面预览，再分发前请确认生成平台条款或替换为原创 / CC0 素材。

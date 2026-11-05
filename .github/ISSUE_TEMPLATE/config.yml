@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 阅读贡献指南
+    url: https://github.com/zongxiang070103-eng/sg-game_37/blob/main/CONTRIBUTING.md
+    about: 提交前请先了解分支模型、提交规范与验证要求。
+  - name: 报告安全问题
+    url: https://github.com/zongxiang070103-eng/sg-game_37/security/advisories/new
+    about: 请不要公开提交安全漏洞，使用私下漏洞报告。
